@@ -46,3 +46,7 @@ INIT += init.target.rc
 INIT += ueventd.qcom.rc
 
 PRODUCT_PACKAGES += $(INIT)
+
+# Fstab
+PRODUCT_COPY_FILES += \
+    device/xiaomi/mido/rootdir/etc/fstab.qcom:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom

@@ -59,3 +59,7 @@ endif
 
 #$(call inherit-product, frameworks/base/data/fonts/fonts.mk)
 #$(call inherit-product, frameworks/base/data/keyboards/keyboards.mk)
+
+# Fstab
+PRODUCT_COPY_FILES += \
+    device/xiaomi/mido/rootdir/etc/fstab.qcom:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom
