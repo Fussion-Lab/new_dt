@@ -47,17 +47,8 @@ ifeq ($(TARGET_FWK_SUPPORTS_FULL_VALUEADDS),true)
 else
 endif
 
-# Enable Codec2.0 HAL as default for pure AOSP variants.
-# WA till ODM properties start taking effect
-ifeq ($(GENERIC_ODM_IMAGE),true)
-  $(warning "Forcing codec2.0 for generic odm build variant")
-  PRODUCT_PROPERTY_OVERRIDES += debug.media.codec2=2
-  PRODUCT_PROPERTY_OVERRIDES += debug.stagefright.ccodec=4
-  PRODUCT_PROPERTY_OVERRIDES += debug.stagefright.omx_default_rank=1000
-else
-  $(warning "Enabling codec2.0 non-audio SW only for non-generic odm build variant")
-  PRODUCT_PROPERTY_OVERRIDES += debug.stagefright.omx_default_rank=0
-endif
+$(warning "Enabling codec2.0 non-audio SW only for non-generic odm build variant")
+PRODUCT_PROPERTY_OVERRIDES += debug.stagefright.omx_default_rank=0
 
 ###########
 #QMAA flags starts
