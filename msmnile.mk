@@ -1,32 +1,10 @@
-#####Dynamic partition Handling
-####
-#### Turning BOARD_DYNAMIC_PARTITION_ENABLE flag to TRUE will enable dynamic partition/super image creation.
-
 # By default this target is new-launch config, so set the default shipping level to 29 (if not set explictly earlier)
 SHIPPING_API_LEVEL := 27
 
 BOARD_DYNAMIC_PARTITION_ENABLE := false
 $(call inherit-product, build/make/target/product/product_launched_with_p.mk)
 
-# Enable virtual-ab by default
-ENABLE_VIRTUAL_AB := true
 
-ifeq ($(ENABLE_VIRTUAL_AB), true)
-    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
-endif
-
-# For QSSI builds, we skip building the system image (when value adds are enabled).
-# Instead we build the "non-system" images (that we support).
-
-PRODUCT_BUILD_SYSTEM_IMAGE := true
-PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
-PRODUCT_BUILD_VENDOR_IMAGE := true
-PRODUCT_BUILD_PRODUCT_IMAGE := false
-PRODUCT_BUILD_SYSTEM_EXT_IMAGE := false
-PRODUCT_BUILD_ODM_IMAGE := false
-PRODUCT_BUILD_CACHE_IMAGE := false
-PRODUCT_BUILD_RAMDISK_IMAGE := true
-PRODUCT_BUILD_USERDATA_IMAGE := true
 
 # Also, since we're going to skip building the system image, we also skip
 # building the OTA package. We'll build this at a later step. We also don't
