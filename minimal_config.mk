@@ -37,50 +37,21 @@ else
     PRODUCT_PROPERTY_OVERRIDES += ro.frp.pst=/dev/block/bootdevice/by-name/config
 endif
 
-PRODUCT_PRIVATE_KEY := device/qcom/common/qcom.key
-
 #INIT
-INIT := init.qcom.rc
-INIT += init.qcom.sh
-INIT += init.qcom.class_core.sh
-INIT += init.class_main.sh
+INIT += fstab.qcom
+INIT += init.device.rc
+INIT += init.goodix.sh
+INIT += init.msm.usb.configfs.rc
 INIT += init.qcom.early_boot.sh
 INIT += init.qcom.post_boot.sh
-INIT += init.target.rc
-INIT += vold.fstab
-INIT += fstab.qcom
-INIT += fstab.qti
-INIT += init.recovery.qcom.rc
-INIT += init.qcom.factory.rc
-INIT += init.qcom.composition_type.sh
-INIT += init.qti.ims.sh
-INIT += init.qcom.coex.sh
-INIT += init.qcom.sdio.sh
-INIT += init.qcom.ril.path.sh
+INIT += init.qcom.rc
+INIT += init.qcom.sh
 INIT += init.qcom.usb.rc
-INIT += init.msm.usb.configfs.rc
-INIT += init.qcom.usb.sh
-INIT += usf_post_boot.sh
-INIT += init.qcom.efs.sync.sh
+INIT += init.recovery.qcom.rc
+INIT += init.recovery.qcom.usb.rc
+INIT += init.soundcontrol.rc
+INIT += init.target.rc
 INIT += ueventd.qcom.rc
-INIT += qca6234-service.sh
-INIT += ssr_setup
-INIT += enable_swap.sh
-INIT += init.mdm.sh
-INIT += init.qcom.sensors.sh
-INIT += init.qcom.crashdata.sh
-INIT += init.qcom.vendor.rc
-INIT += init.target.vendor.rc
-INIT += init.qti.fm.sh
-INIT += init.veth_ipa_config.sh
-PRODUCT_PACKAGES += $(INIT)
-
-ifneq ($(strip $(TARGET_USES_RRO)),true)
-# enable overlays to use our version of
-# source/resources etc.
-DEVICE_PACKAGE_OVERLAYS += device/qcom/common/device/overlay
-PRODUCT_PACKAGE_OVERLAYS += device/qcom/common/product/overlay
-endif
 
 # Pure AOSP framework vs vendor modified framework detection
 # - using BUILD_ID xKQ* as mechanism
@@ -106,17 +77,6 @@ else
      KERNEL_TO_BUILD_ROOT_OFFSET := ../../
      TARGET_KERNEL_SOURCE := kernel/msm-$(TARGET_KERNEL_VERSION)
 endif
-# include additional build utilities
--include device/qcom/common/utils.mk
-
-# dm-verity definitions
-ifneq ($(BOARD_AVB_ENABLE), true)
-   PRODUCT_SYSTEM_VERITY_PARTITION=/dev/block/bootdevice/by-name/system
-   ifeq ($(ENABLE_VENDOR_IMAGE), true)
-      PRODUCT_VENDOR_VERITY_PARTITION=/dev/block/bootdevice/by-name/vendor
-   endif
-   $(call inherit-product, build/target/product/verity.mk)
-endif
 
 #skip boot jars check
 SKIP_BOOT_JARS_CHECK := true
@@ -124,6 +84,8 @@ SKIP_BOOT_JARS_CHECK := true
 ifeq ($(TARGET_BUILD_VARIANT),user)
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
     ro.adb.secure=1
+else
+	ro.adb.secure=0
 endif
 
 # OEM Unlock reporting
@@ -141,7 +103,7 @@ PRODUCT_PACKAGES += \
 # have been removed, TARGET_FS_CONFIG_GEN should be made unconditional.
 DEVICE_CONFIG_DIR := $(dir $(firstword $(subst ]],, $(word 2, $(subst [[, ,$(_node_import_context))))))
 ifeq ($(wildcard $(DEVICE_CONFIG_DIR)/android_filesystem_config.h),)
-  TARGET_FS_CONFIG_GEN := device/qcom/common/config.fs
+  TARGET_FS_CONFIG_GEN := device/xiaomi/mido/config.fs
 else
   $(warning **********)
   $(warning TODO: Need to replace legacy $(DEVICE_CONFIG_DIR)android_filesystem_config.h with config.fs)
@@ -150,90 +112,3 @@ endif
 
 PRODUCT_PACKAGES += liboemaids_system
 PRODUCT_PACKAGES += liboemaids_vendor
-
-# Include the AOSP embedded configuration but strip display related modules out
-include build/target/product/base_system.mk
-include build/target/product/base_vendor.mk
-include build/target/product/core_64_bit.mk
-_MINIMAL_STRIP_MODULES := blank_screen \
-                              bootanimation \
-                              libgui \
-                              libpixelflinger \
-                              libsurfaceflinger \
-                              libsurfaceflinger_ddmconnection \
-                              surfaceflinger \
-                              libui \
-                              surfaceflinger \
-                              appwidget \
-                              BackupRestoreConfirmation \
-                              android.test.base \
-                              android.test.mock \
-                              android.test.runner \
-                              audioserver \
-                              app_process \
-                              cameraserver \
-                              com.android.location.provider \
-                              ContactsProvider \
-                              DefaultContainerService \
-                              DownloadProvider \
-                              ExtServices \
-                              ExtShared \
-                              ims-common \
-                              libaaudio \
-                              libamidi \
-                              libandroid \
-                              libandroidfw \
-                              libandroid_runtime \
-                              libandroid_servers \
-                              libaudioeffect_jni \
-                              libaudioflinger \
-                              libaudiopolicymanager \
-                              libaudiopolicyservice \
-                              libaudioutils \
-                              libcamera2ndk \
-                              libcamera_client \
-                              libcameraservice \
-                              libdrmframework \
-                              libdrmframework_jni \
-                              libEGL \
-                              libETC1 \
-                              libFFTEm \
-                              libGLESv1_CM \
-                              libGLESv2 \
-                              libGLESv3 \
-                              libgui \
-                              libmedia \
-                              libmedia_jni \
-                              libmediandk \
-                              libmediaplayerservice \
-                              libsoundpool \
-                              libsoundtrigger \
-                              libsoundtriggerservice \
-                              libstagefright \
-                              libstagefright_amrnb_common \
-                              libstagefright_enc_common \
-                              libstagefright_foundation \
-                              libstagefright_omx \
-                              libwifi-service \
-                              media \
-                              media_cmd \
-                              mediadrmserver \
-                              mediaextractor \
-                              mediametrics \
-                              MediaProvider \
-                              mediaserver \
-                              PackageInstaller \
-                              PermissionController \
-                              SettingsProvider \
-                              telecom \
-                              telephony-common \
-                              voip-common \
-                              WallpaperBackup \
-                              wificond \
-                              wifi-service \
-                              wm \
-                              @inherit:build/target/product/runtime_libart.mk
-
-PRODUCT_PACKAGES := $(filter-out $(_MINIMAL_STRIP_MODULES),$(PRODUCT_PACKAGES))
-#PRODUCT_BOOT_JARS := $(filter-out telephony-common voip-common ims-common,$(PRODUCT_BOOT_JARS))
-PRODUCT_BOOT_JARS :=

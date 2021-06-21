@@ -99,17 +99,12 @@ endif
 #Enable split vendor image
 ENABLE_VENDOR_IMAGE := true
 ifeq ($(ENABLE_VENDOR_IMAGE), true)
-ifneq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
-TARGET_RECOVERY_FSTAB := device/qcom/msmnile/recovery_vendor_variant.fstab
-else
-TARGET_RECOVERY_FSTAB := device/qcom/msmnile/recovery_dynamic_partition.fstab
-endif
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 TARGET_USERIMAGES_USE_EXT4 := true
 else
-TARGET_RECOVERY_FSTAB := device/qcom/msmnile/recovery.fstab
+TARGET_RECOVERY_FSTAB := device/xiaomi/mido/rootdir/etc/fstab.recovery.qcom
 endif
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x06000000
