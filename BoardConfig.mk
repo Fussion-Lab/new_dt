@@ -167,6 +167,11 @@ USE_XML_AUDIO_POLICY_CONF := 1
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/xiaomi/mido/bluetooth/include
 
+# Camera
+BOARD_QTI_CAMERA_32BIT_ONLY := true
+TARGET_TS_MAKEUP := true
+TARGET_USES_QTI_CAMERA_DEVICE := true
+
 #Enable PD locater/notifier
 TARGET_PD_SERVICE_ENABLED := true
 
