@@ -33,7 +33,6 @@ BOARD_SECCOMP_POLICY := device/qcom/$(TARGET_BOARD_PLATFORM)/seccomp
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 TARGET_NO_KERNEL := false
--include $(QCPATH)/common/msmnile/BoardConfigVendor.mk
 
 USE_OPENGL_RENDERER := true
 
@@ -191,3 +190,6 @@ Q_BU_DISABLE_MODULE := true
 #################################################################################
 
 include device/qcom/sepolicy_vndr/SEPolicy.mk
+
+# Inherit from the proprietary version
+-include vendor/xiaomi/mido/BoardConfigVendor.mk
