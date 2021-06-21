@@ -1,5 +1,7 @@
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/msmnile.mk
+	$(LOCAL_DIR)/_mido.mk
 
 COMMON_LUNCH_CHOICES := \
-        msmnile-userdebug
+        _mido-user \
+        _mido-userdebug \
+        _mido-eng
