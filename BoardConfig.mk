@@ -164,6 +164,9 @@ TARGET_COMPILE_WITH_MSM_KERNEL := true
 #Audio policy
 USE_XML_AUDIO_POLICY_CONF := 1
 
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/xiaomi/mido/bluetooth/include
+
 #Enable PD locater/notifier
 TARGET_PD_SERVICE_ENABLED := true
 
