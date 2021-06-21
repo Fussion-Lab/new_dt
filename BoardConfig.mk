@@ -179,6 +179,9 @@ BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 BOARD_VNDK_VERSION:=current
 Q_BU_DISABLE_MODULE := true
 
+# Filesystem
+TARGET_FS_CONFIG_GEN := device/xiaomi/mido/config.fs
+
 
 #################################################################################
 # This is the End of BoardConfig.mk file.
