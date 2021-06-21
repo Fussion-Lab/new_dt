@@ -755,21 +755,6 @@ DEVICE_PACKAGE_OVERLAYS += device/xiaomi/mido/device/overlay
 PRODUCT_PACKAGE_OVERLAYS += device/xiaomi/mido/product/overlay
 endif
 
-# Set up flags to determine the kernel version
-ifeq ($(TARGET_KERNEL_VERSION),)
-     TARGET_KERNEL_VERSION := 3.18
-endif
-ifneq ($(KERNEL_OVERRIDE),)
-     TARGET_KERNEL_VERSION := $(KERNEL_OVERRIDE)
-endif
-ifeq ($(wildcard kernel/msm-$(TARGET_KERNEL_VERSION)),)
-     KERNEL_TO_BUILD_ROOT_OFFSET := ../
-     TARGET_KERNEL_SOURCE := kernel
-else
-     KERNEL_TO_BUILD_ROOT_OFFSET := ../../
-     TARGET_KERNEL_SOURCE := kernel/msm-$(TARGET_KERNEL_VERSION)
-endif
-
 #Enabling Ring Tones
 #include frameworks/base/data/sounds/OriginalAudio.mk
 
