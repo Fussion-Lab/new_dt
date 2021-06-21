@@ -32,14 +32,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.radio.procedure_bytes=SKIP
 endif
 
-ifneq ($(ENABLE_HYP),true)
-ifneq ($(BOARD_FRP_PARTITION_NAME),)
-    PRODUCT_PROPERTY_OVERRIDES += ro.frp.pst=/dev/block/bootdevice/by-name/$(BOARD_FRP_PARTITION_NAME)
-else
-    PRODUCT_PROPERTY_OVERRIDES += ro.frp.pst=/dev/block/bootdevice/by-name/config
-endif
-endif
-
 # whitelisted app
 PRODUCT_COPY_FILES += \
     device/qcom/common/qti_whitelist.xml:system/etc/sysconfig/qti_whitelist.xml
